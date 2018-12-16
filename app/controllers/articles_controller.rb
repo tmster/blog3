@@ -14,6 +14,7 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
     @article.author = current_user if current_user
     if @article.save
+      flash[:notice] = 'Your article has been saved'
       redirect_to article_path(@article)
     else
       render 'new'
@@ -25,10 +26,15 @@ class ArticlesController < ApplicationController
   end
 
   def edit
+    if current_user != @article.author
+      flash[:alert] = "You are not allowed to be here"
+      redirect_to articles_path
+    end
   end
 
   def update
     if @article.update(article_params)
+      flash[:notice] = 'Your article has been updated'
       redirect_to article_path(@article)
     else
       render 'edit'
@@ -37,6 +43,7 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article.destroy
+    flash[:notice] = 'Your article has been deleted'
     redirect_to articles_path
   end
 
