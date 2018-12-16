@@ -5,4 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :articles, foreign_key: :author_id
+
+  def admin?
+    admin
+  end
 end
