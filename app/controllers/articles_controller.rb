@@ -28,11 +28,16 @@ class ArticlesController < ApplicationController
   def edit
     if current_user != @article.author && !current_user.admin?
       flash[:alert] = "You are not allowed to be here"
-      redirect_to articles_path
+      return redirect_to articles_path
     end
   end
 
   def update
+    if current_user != @article.author && !current_user.admin?
+      flash[:alert] = "You are not allowed to be here"
+      return redirect_to articles_path
+    end
+
     if @article.update(article_params)
       flash[:notice] = 'Your article has been updated'
       redirect_to article_path(@article)
@@ -42,6 +47,11 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
+    if current_user != @article.author && !current_user.admin?
+      flash[:alert] = "You are not allowed to be here"
+      return redirect_to articles_path
+    end
+
     @article.destroy
     flash[:notice] = 'Your article has been deleted'
     redirect_to articles_path
