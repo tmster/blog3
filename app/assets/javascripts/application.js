@@ -16,3 +16,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require_tree .
+
+window.addEventListener('load', function () {
+  console.log('Hello from rails!');
+})
