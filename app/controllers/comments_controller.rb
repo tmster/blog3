@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = Comment.new(comment_params)
-    @Comment.user = current_user
+    @comment.user = current_user
     @comment.article = @article
     @like = Like.find_or_initialize_by(article: @article, user: current_user)
 
