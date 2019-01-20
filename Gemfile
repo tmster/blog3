@@ -40,6 +40,8 @@ gem 'font-awesome-rails'
 gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
 gem 'carrierwave'
+gem 'cloudinary'
+
 group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
