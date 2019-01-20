@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'welcome/index'
 
   resources :articles do
+    get 'toggle_visibility', on: :member
     resources :comments
     resources :likes, only: %i[create destroy]
   end
