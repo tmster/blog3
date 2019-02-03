@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :likes
   has_many :liked_articles, through: :likes, source: :article
   has_many :comments
+  has_many :rates
 
   def admin?
     admin
