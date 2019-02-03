@@ -1,13 +1,26 @@
-<p>
-  <strong>Commenter:</strong>
-  <%= comment.user.email %>
-</p>
-<p>
-  <strong>Body:</strong>
-  <%= simple_format(comment.body) %>
-</p>
+<% if comment.rates.sum(:rate) < -1 %>
+  Comment rate is to low to be visible
+<% else %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.user.email %>
+  </p>
+  <p>
+    <strong>Body:</strong>
+    <%= simple_format(comment.body) %>
+  </p>
 
-<% if comment.user == current_user || current_user&.admin? %>
-  <%= link_to 'Destroy', article_comment_path(article_id: comment.article.id, id: comment.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% if comment.user == current_user || current_user&.admin? %>
+    <%= link_to 'Destroy', article_comment_path(article_id: comment.article.id, id: comment.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% end %>
+  <br />
+  Rate: <%= comment.rates.sum(:rate) %><br />
+  <% if comment.rates.for_user(current_user).present? %>
+  Delete your rate
+  <%= link_to 'Unrate', article_comment_rate_path(article_id: @article.id, comment_id: comment.id, id: comment.rates.for_user(current_user).first.id), method: :delete %>
+  <% else %>
+  <%= button_to "+", article_comment_rates_path(article_id: @article.id, comment_id: comment.id), params: { rate: 1 } %>
+  <%= button_to "-", article_comment_rates_path(article_id: @article.id, comment_id: comment.id), params: { rate: -1 } %>
+  <% end %>
 <% end %>
 <hr />
